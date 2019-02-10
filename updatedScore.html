@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Scoresheet</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,400i" rel="stylesheet">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" id="logo"><img src="img/tally-ho-logo.png"></a>
+    <h2>Game Name</h2>
+  </nav>
+
+  <div id="app">
+
+    <form v-on:submit.prevent="createPlayer">
+      <input type="text" v-model="newPlayer.name" placeholder="Player Name">
+
+      <input type="submit" value="Create Player">
+      <button v-on:click.prevent="endGame()"> End Game </button>
+    </form>
+
+    <div>
+      <h3>Leaderboard</h3>
+
+      <ol>
+        <li v-for="player in orderPlayers(players)">
+          <button v-on:click="setFocusPlayer(player)">
+            <span>{{ player.name }} : {{ player.score }}</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <div v-if="focusPlayer">
+      <h3>Focus Player: {{ focusPlayer.name }}</h3>
+
+      <form v-on:submit.prevent="updateFocusPlayerScore(focusPlayer)">
+        <input type="number" v-model="focusPlayer.newScore">
+
+        <input type="submit" value="Update Player Score">
+      </form>
+
+      <button v-on:click.prevent="deleteFocusPlayer(focusPlayer)">Delete Player</button>
+
+    </div>
+  </div>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDFkXy_rKkWWKoz6SUK_Y8YZt-6ci8DsQ8",
+    authDomain: "helloworld-e9d73.firebaseapp.com",
+    databaseURL: "https://helloworld-e9d73.firebaseio.com",
+    projectId: "helloworld-e9d73",
+    storageBucket: "helloworld-e9d73.appspot.com",
+    messagingSenderId: "205857428347"
+  };
+  firebase.initializeApp(config);
+</script>
+
+  <!-- Vue -->
+  <script src="https://unpkg.com/vue"></script>
+
+  <!-- VueFire -->
+  <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+
+  <script>
+    var playerScoresRef = firebase.database().ref('playerScores');
+      
+    new Vue({
+      el: "#app",
+
+      data: {
+        newPlayer: {
+          name: '',
+          score: 0,
+          newScore: 0
+        },
+        focusPlayer: null
+      },
+
+      firebase: {
+        players: playerScoresRef
+      },
+
+      methods: {
+        createPlayer: function() {
+          playerScoresRef.push(this.newPlayer);
+          this.newPlayer.name = '';
+        },
+
+        updateFocusPlayerScore: function(player) {
+          var totalScore = parseInt(player.newScore) + parseInt(player.score)
+
+          playerScoresRef.child(player['.key']).update({ score: totalScore });
+          this.focusPlayer.score = totalScore;
+        },
+
+        deleteFocusPlayer: function(player) {
+          playerScoresRef.child(player['.key']).remove()
+          this.focusPlayer = null
+        },
+
+        setFocusPlayer: function(player) {
+          this.focusPlayer = player
+        },
+        orderPlayers: function(players) {
+            var i = 0;
+            for (player of players){
+                i++;
+            }
+            for (var j = 0; j < i - 1; j++){
+                for (var k = 0; k < i-j-1; k++){
+                    var hold;
+                    if (players[k].score < players[k+1].score){
+                        console.log("Here");
+                        hold = players[k+1]
+                        players[k+1] = players[k];
+                        players[k] = hold;
+                    }
+                }
+            }
+            return players;
+        },
+        endGame: function(){
+            window.location.href = 'trophy.html';
+        }
+      }
+    });
+  </script>
+</body>
+</html>

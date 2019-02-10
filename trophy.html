@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>T9 Hacks Vue Todo List</title>
+</head>
+<body>
+
+  <div id="app">
+    <div>
+      <h2>Leaderboard</h2>
+        <img src="img/trophy.png">
+        <h3> {{ orderPlayers(players)[0].name }} Won! </h3>
+    </div>
+
+    <div>
+      <ol>
+        <li v-for="player in orderPlayers(players)">
+          <button v-on:click="setFocusPlayer(player)">
+            <span>{{ player.name }} : {{ player.score }}</span>
+          </button>
+        </li>
+      </ol>
+    </div>
+    <button v-on:click.prevent="playAgain(players)"> Play again? </button>
+  </div>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDFkXy_rKkWWKoz6SUK_Y8YZt-6ci8DsQ8",
+    authDomain: "helloworld-e9d73.firebaseapp.com",
+    databaseURL: "https://helloworld-e9d73.firebaseio.com",
+    projectId: "helloworld-e9d73",
+    storageBucket: "helloworld-e9d73.appspot.com",
+    messagingSenderId: "205857428347"
+  };
+  firebase.initializeApp(config);
+</script>
+
+  <!-- Vue -->
+  <script src="https://unpkg.com/vue"></script>
+
+  <!-- VueFire -->
+  <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+
+  <script>
+    var playerScoresRef = firebase.database().ref('playerScores');
+      
+    new Vue({
+      el: "#app",
+
+      data: {
+        newPlayer: {
+          name: '',
+          score: 0,
+          newScore: 0
+        },
+        focusPlayer: null
+      },
+
+      firebase: {
+        players: playerScoresRef
+      },
+
+      methods: {
+        orderPlayers: function(players) {
+            var i = 0;
+            for (player of players){
+                i++;
+            }
+            for (var j = 0; j < i - 1; j++){
+                for (var k = 0; k < i-j-1; k++){
+                    var hold;
+                    if (players[k].score < players[k+1].score){
+                        console.log("Here");
+                        hold = players[k+1]
+                        players[k+1] = players[k];
+                        players[k] = hold;
+                    }
+                }
+            }
+            return players;
+        },
+        playAgain: function(players){
+            for (player of players){
+                playerScoresRef.child(player['.key']).update({ score: 0 });
+            }
+            window.location.href = 'updatedScore.html';
+        }
+      }
+    });
+  </script>
+</body>
+</html>

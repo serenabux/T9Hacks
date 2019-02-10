@@ -10,7 +10,7 @@
 
   <nav>
     <a href="index.html" id="logo"><img src="img/tally-ho-logo.png"></a>
-    <h2>Game Name</h2>
+    <h1>Game Name</h1>
   </nav>
 
   <div id="app">
@@ -22,10 +22,10 @@
       <button v-on:click.prevent="endGame()"> End Game </button>
     </form>
 
-    <div>
+    <div id="leaderboard">
       <h3>Leaderboard</h3>
 
-      <ol>
+      <ol id="scoreboard">
         <li v-for="player in orderPlayers(players)">
           <button v-on:click="setFocusPlayer(player)">
             <span>{{ player.name }} : {{ player.score }}</span>

@@ -1,0 +1,159 @@
+body {
+	margin: 0;
+	animation: bg-shift 10s linear 0s infinite normal; 
+	/*font-family: 'Source Code Pro', monospace; */
+	font-family: 'Raleway', sans-serif;
+}
+
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+  
+
+  
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  
+  nav img {
+  	margin: 1em;
+  }
+  h1 {
+  	margin: 0 .75em;
+  	font-size: 4em;
+  }
+  #search-button {
+	width: 5%;
+	padding: 0;
+}
+  #search-button {
+  	margin: 0 3em 0 1em;
+  }
+  #cards li {
+  	width: 15%;
+  	text-align: center;
+  	margin: 1em;
+  }
+  #searchbar {
+  	margin: 1.5em;
+  	font-size: 1.5em;
+  	padding: 1em;
+  }
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+  //CSS
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+  //CSS
+  
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  
+  //CSS
+  
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+/*@media (min-width: 320px) and (max-width: 480px) {
+  
+  //CSS
+  
+}*/
+
+nav {
+	background-color: white;
+	width: 100%;
+	display: flex;
+}
+
+input, button {
+	border: none;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+	vertical-align: bottom;
+}
+
+nav a{
+	width: 8%;
+}
+
+nav input {
+	flex-grow: 1;
+	text-align: right;
+}
+
+h1 {
+	animation: color-shift 10s linear 0s infinite normal; 
+}
+
+ul {
+	list-style-type: none;
+}
+
+button:focus, input:focus {
+	outline: none;
+}
+
+input:focus {
+	background-color: rgba(204, 51, 204, 0.3);
+	border-radius: 15px;
+	color: white;
+}
+
+#cards li {
+	background-color: white;
+	border-radius: 15px;
+	display: inline-block;
+	align: center;
+}
+
+
+@keyframes bg-shift {
+	0% {background-color: #6633cc;}
+	33% {background-color: #9933cc;}
+	66% {background-color: #cc33cc;}
+	100% {background-color: #6633cc;}
+}
+@keyframes color-shift {
+	0% {color: #6633cc;}
+	33% {color: #9933cc;}
+	66% {color: #cc33cc;}
+	100% {color: #6633cc;}
+}
